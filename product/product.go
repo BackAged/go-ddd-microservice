@@ -16,24 +16,31 @@ const (
 	StatusInActive = Status("INACTIVE")
 )
 
+// ValidStatus holds all the valid order status
+var ValidStatus = []Status{
+	StatusActive, StatusInActive, StatusPending,
+}
+
+// IsValid returns if status is valid or not
+func (status Status) IsValid() bool {
+	for _, s := range ValidStatus {
+		if status == s {
+			return true
+		}
+	}
+
+	return false
+}
+
 // NewStatus returns status from  a string
 func NewStatus(sts string) (Status, error) {
 	stsFrmStr := Status(sts)
 
-	if ok, err := stsFrmStr.IsValid(); !ok {
-		return Status(""), err
+	if ok := stsFrmStr.IsValid(); !ok {
+		return Status(""), ErrInvalidStatus
 	}
 
 	return stsFrmStr, nil
-}
-
-// IsValid returns if status is valid or not
-func (s Status) IsValid() (bool, error) {
-	if s != StatusActive && s != StatusInActive && s != StatusPending {
-		return false, ErrInvalidStatus
-	}
-
-	return true, nil
 }
 
 // Product defines product type
@@ -74,7 +81,7 @@ func (p Product) IsValid() (bool, error) {
 	if p.DiscountedPrice > p.Price || p.DiscountedPrice < 0 {
 		ve.Add("discounted_price", "invalid")
 	}
-	if ok, _ := p.Status.IsValid(); !ok {
+	if ok := p.Status.IsValid(); !ok {
 		ve.Add("status", "invalid")
 	}
 

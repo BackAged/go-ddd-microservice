@@ -29,16 +29,16 @@ var _ = Describe("Product", func() {
 		Context("invalid status IsValid", func() {
 			It("should return error", func() {
 				sts := product.Status("invalid")
-				_, err := sts.IsValid()
-				Expect(err).To(HaveOccurred())
+				ok := sts.IsValid()
+				Expect(ok).To(BeFalse())
 			})
 		})
 
 		Context("valid status IsValid", func() {
 			It("should not return error", func() {
 				sts := product.Status("ACTIVE")
-				_, err := sts.IsValid()
-				Expect(err).ToNot(HaveOccurred())
+				ok := sts.IsValid()
+				Expect(ok).ToNot(BeFalse())
 			})
 		})
 	})
