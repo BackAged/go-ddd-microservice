@@ -1,11 +1,10 @@
 package config_test
 
 import (
-	"log"
+	"os"
 	"testing"
 
 	"github.com/BackAged/go-ddd-microservice/config"
-	"github.com/joho/godotenv"
 )
 
 func TestIsValid(t *testing.T) {
@@ -66,14 +65,16 @@ func TestIsValid(t *testing.T) {
 
 func TestGetApp(t *testing.T) {
 	t.Run("GetApp", func(t *testing.T) {
-		err := godotenv.Load(".env.example")
-		if err != nil {
-			log.Fatal("Error loading .env.examplee file")
-		}
+		os.Setenv("DB_URL", "postgresql://root:root@localhost:5432/order?sslmode=disable")
+		os.Setenv("DB_TIME_OUT", "100")
+		os.Setenv("PORT", "3003")
+		os.Setenv("RABBITMQ_URL", "amqp://guest:guest@localhost:5672/")
 
 		_, gotErr := config.GetApp()
 		if gotErr != nil {
 			t.Errorf("want no error but error")
 		}
+
+		os.Clearenv()
 	})
 }
