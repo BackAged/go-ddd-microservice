@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  postgres:
+    container_name: order-postgres
+    image: postgres
+    restart: "on-failure"
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: root
+  
+  order:
+    container_name: order
+    build: 
+        dockerfile: Dockerfile
+        context: .
+    depends_on: 
+        - postgres
+    ports:
+      - "3000:8000"
+    command: serve-grpc
+    environment:
+      POSTGRES_URL: postgresql://root:root@order-postgres/order?sslmode=disable
+      DB_TIME_OUT: 10
+      PORT: 8000
+      
