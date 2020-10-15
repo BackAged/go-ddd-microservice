@@ -24,6 +24,11 @@ func (de DomainError) Error() string {
 	return de.message
 }
 
+// GetMessage returns error message
+func (de DomainError) GetMessage() string {
+	return de.message
+}
+
 // GetError returns wrapped error
 func (de DomainError) GetError() error {
 	return de.err
