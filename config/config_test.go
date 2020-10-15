@@ -71,8 +71,8 @@ func TestGetApp(t *testing.T) {
 			log.Fatal("Error loading .env.examplee file")
 		}
 
-		got, gotErr := config.GteApplication()
-		if gotEErr != nil {
+		_, gotErr := config.GetApp()
+		if gotErr != nil {
 			t.Errorf("want no error but error")
 		}
 	})
