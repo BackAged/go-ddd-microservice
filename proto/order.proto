@@ -1,0 +1,71 @@
+syntax = "proto3";
+
+package order;
+
+option go_package = "/pb";
+
+service OrderService {
+  rpc PlaceOrder(Order) returns (Order) {}
+  rpc GetOrder(GetOrderReq) returns (Order) {}
+  rpc ListCustomerOrder(ListCustomerOrderReq) returns (ListCustomerOrderRes) {}
+  rpc CancelOrder(CancelOrderReq) returns (CancelOrderRes) {}
+}
+
+message Order {
+  int64 id = 1;
+  string invoice_number = 2;
+  repeated Item order_items = 3;
+  float total_quantity =  4;
+  string  status = 5;
+  float payed_amount = 6;
+  float total_amount = 7;
+  float sub_total = 8;
+  int64 customer_id = 9;
+  string customer_name = 10;
+  string payment_status = 11;
+  string payment_method = 12;
+  string delivery_address =  13;
+  string delivery_contact_number = 14;
+}
+
+message Customer {
+  int64 id = 1;
+  string name = 2;
+  string address = 3;
+  string contact_number = 4;
+  string note = 5;
+}
+
+message Item {
+  int64 product_id = 1;
+  string name = 2;
+  string image = 3;
+  string slug = 4;
+  int64 quantity = 5;
+  int64 price = 6;
+}
+
+message PlaceOrderReq {
+  repeated  Item order_items = 1;
+  Customer customer = 2;
+  string payment_method = 3;
+  string delivery_address = 4;
+  string delivery_contact_number = 5;
+}
+
+message GetOrderReq { string invoice_number = 1; }
+
+message ListCustomerOrderReq {
+  int64 skip = 3;
+  int64 limit = 4;
+}
+
+message ListCustomerOrderRes {
+  repeated Order orders = 1;
+  float count = 2;
+}
+
+message CancelOrderReq { string invoice_number = 1; }
+
+message CancelOrderRes {}
+
