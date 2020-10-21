@@ -13,10 +13,6 @@ if ! [ -x "$(command -v git)" ]; then
     echo "git is not installed"
     exit 1
 fi
-if [ -z "${GOPATH}" ]; then
-    echo "set GOPATH"
-    exit 1
-fi
 
 
 PATH="${PATH}:${GOPATH}/bin"
